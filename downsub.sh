@@ -1,5 +1,36 @@
 #!/bin/bash
 
+# Função para exibir a mensagem de ajuda
+show_help() {
+    echo "Uso: $0 <nome_do_filme> <idioma> <diretorio_de_saida>"
+    echo ""
+    echo "Baixa legendas do OpenSubtitles de forma interativa."
+    echo ""
+    echo "Argumentos:"
+    echo "  <nome_do_filme>       Nome do filme (coloque entre aspas se houver espaços)."
+    echo "  <idioma>              Código do idioma (ex: 'pob' para PT-BR, 'eng' para Inglês)."
+    echo "  <diretorio_de_saida>  Pasta onde o arquivo .zip da legenda será salvo."
+    echo ""
+    echo "Opções:"
+    echo "  help, -h, --help      Mostra esta mensagem de ajuda e sai."
+    echo ""
+    echo "Exemplo:"
+    echo "  $0 \"The Matrix\" pob /home/usuario/Downloads"
+}
+
+# Verifica se o usuário pediu ajuda
+if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
+    show_help
+    exit 0
+fi
+
+# Verifica se o número exato de argumentos (3) foi passado
+if [ "$#" -ne 3 ]; then
+    echo "Erro: Faltam argumentos necessários." >&2
+    show_help
+    exit 1
+fi
+
 movie_name="$1"
 movie_language="$2"
 output_dir="$3"
@@ -16,8 +47,8 @@ movie_addr=$(curl -s "$search_movie_addr" | \
 # Get all subtitle options
 id_format_movie_name=$(echo "$formated_movie_name" | tr '+' '-')
 sub_options=$(curl -s "https://opensubtitles.org${movie_addr}" | \
-              grep -Eo "href=\"/en/subtitles/[0-9]+/${id_format_movie_name}[^\"]*\"" | \
-              awk '{print NR ") " $0}')
+               grep -Eo "href=\"/en/subtitles/[0-9]+/${id_format_movie_name}[^\"]*\"" | \
+               awk '{print NR ") " $0}')
 
 # Display options with proper formatting
 echo "Available subtitles:"
