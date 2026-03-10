@@ -1,6 +1,6 @@
 # Downsub - Baixador de Legendas OpenSubtitles
 
-Um script interativo em Bash para buscar, selecionar e baixar legendas de filmes diretamente do [link suspeito removido] usando a linha de comando.
+Um script interativo em Bash para buscar, selecionar e baixar legendas de filmes diretamente do [https://www.opensubtitles.org/] usando a linha de comando.
 
 ## Funcionalidades
 
